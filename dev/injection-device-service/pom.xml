@@ -49,7 +49,7 @@
     <dependency>
       <groupId>org.apache.camel.quarkus</groupId>
       <artifactId>camel-quarkus-stomp</artifactId>
-  </dependency>
+    </dependency>
     <!--dependency>
       <groupId>org.apache.camel.quarkus</groupId>
       <artifactId>camel-quarkus-amqp</artifactId>
