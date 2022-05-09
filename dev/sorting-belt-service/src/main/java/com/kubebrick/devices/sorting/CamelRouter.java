@@ -27,8 +27,12 @@ public class CamelRouter extends RouteBuilder {
             .choice()
                   .when().jsonpath("$[?(@.color == 'blue')]" , false)
                       .log("One blue")
+                      .marshal().json(JsonLibrary.Gson)                    
+                      .to("amqp:queue:bluepieces?exchangePattern=InOnly")
                   .when().jsonpath("$[?(@.color == 'green')]" , false)
                       .log("One green")
+                      .marshal().json(JsonLibrary.Gson)
+                      .to("amqp:queue:greenpieces?exchangePattern=InOnly")
                   .otherwise()
                   .log("Last resort").stop()
                  .end();
