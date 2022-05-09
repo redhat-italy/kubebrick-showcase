@@ -1,0 +1,30 @@
+{
+    "orders": [
+        {
+            "type": "square",
+            "color": "blue",
+            "timestamp": "20220329480204",
+            "batchid": "12345"
+        },
+        {
+            "type": "square",
+            "color": "green",
+            "timestamp": "20220329480204",
+            "batchid": "12345"
+        }
+        ,
+        {
+            "type": "square",
+            "color": "white",
+            "timestamp": "20220329480204",
+            "batchid": "12345"
+        }
+        ,
+        {
+            "type": "square",
+            "color": "yellow",
+            "timestamp": "20220329480204",
+            "batchid": "12345"
+        }
+    ]
+}

@@ -4,6 +4,10 @@ This project uses Quarkus, the Supersonic Subatomic Java Framework.
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
+## Dependencies
+
+You need a AMQ Broker running before starting this servi
+
 ## Running the application in dev mode
 
 You can run your application in dev mode that enables live coding using:
@@ -47,7 +51,6 @@ You can then execute your native executable with: `./target/injection-device-ser
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
 
-## Related Guides
+# Testing the service
 
-- SmallRye Reactive Messaging - AMQP Connector ([guide](https://quarkus.io/guides/amqp)): Connect to AMQP with Reactive Messaging
-- Camel Quartz ([guide](https://camel.apache.org/camel-quarkus/latest/reference/extensions/quartz.html)): Schedule sending of messages using the Quartz 2.x scheduler
+curl -X POST -H "Content-Type: application/json" localhost:8181/camel/startbatch -d "@samples/batch.json"
