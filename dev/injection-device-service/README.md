@@ -53,4 +53,11 @@ If you want to learn more about building native executables, please consult http
 
 # Testing the service
 
+## Get temperature
+curl -X GET -H "Content-Type: application/json" localhost:8181/camel/temperature
+
+## start a batch
+
 curl -X POST -H "Content-Type: application/json" localhost:8181/camel/startbatch -d "@samples/batch.json"
+
+curl -X POST -H "Content-Type: application/json" localhost:8181/camel/startbatch -d "@samples/batch_blue.json"
