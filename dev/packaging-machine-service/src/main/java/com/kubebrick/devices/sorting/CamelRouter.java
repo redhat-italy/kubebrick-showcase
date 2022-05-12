@@ -24,15 +24,12 @@ public class CamelRouter extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         // @formatter:off
-    
-        from("amqp:queue:bluepieces")
-            //.log("${body}")
-            //.unmarshal().json(JsonLibrary.Gson)
+        from("amqp:queue:{{queue}}")
             .aggregate( AggregationStrategies.groupedExchange()).constant(false)
-            .completionSize(5).completionTimeout(5)
+                .completionSize(5)
+                .completionTimeout(1000)
             .log("Message ${body}")
-                .process(new PackDetailProcessor())
-            
+            .process(new PackDetailProcessor())
         .end();
         //.to("stomp:queue:SortingBelt?brokerURL={{broker.url}}");
  
@@ -48,7 +45,7 @@ public class CamelRouter extends RouteBuilder {
                 System.out.println(o);
                 Exchange ex = (Exchange) o;
                 byte[] body = (byte[]) ex.getMessage().getBody();
-                System.out.println("Item in the pack >>> " + new String(body));
+                System.out.println("Item in the pack > " + new String(body));
             }
 
         }

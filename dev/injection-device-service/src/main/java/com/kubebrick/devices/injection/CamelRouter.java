@@ -27,13 +27,17 @@ public class CamelRouter extends RouteBuilder {
           .enableCORS(true);
 
         rest("/")
-          .get("/temperature").to("direct:temperature")          
-          .consumes("application/json").post("/startbatch").to("direct:startbatch");
+          .get("/temperature")
+            .to("direct:temperature")          
+          .consumes("application/json")
+          .post("/startbatch")         
+            .to("direct:startbatch");
 
         from("direct:temperature")
         .process(
           // @formatter:on
             new Processor() {
+              
               @Override
               public void process(Exchange exchange) throws Exception {
                 int delta = getDelta();                
@@ -48,17 +52,19 @@ public class CamelRouter extends RouteBuilder {
                 return delta;
               }
           // @formatter:off
-        });
-        //  .transform().constant("{\"temperature\":\"180\"}");
+        });        
 
       from("direct:startbatch")
-          .log(">> body ${body}")
-          .split().jsonpath("$.orders")
+        .log(">> body ${body}")
+        .to("direct:splitbatch")
+        .setBody().simple("{\"result\":\"print requested\"}");
+              
+      from("direct:splitbatch")
+        .split().jsonpath("$.orders")
           .streaming()
           .log("batch >> ${body}")
-          .marshal().json(JsonLibrary.Gson)
+          .marshal().json(JsonLibrary.Gson)        
           .to("amqp:queue:SortingBelt?exchangePattern=InOnly");
-        // @formatter:on
-
+      // @formatter:on
   }
 }
