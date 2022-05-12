@@ -3,7 +3,6 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const app = express();
 
-//setting middleware
 //app.use(express.static(__dirname + 'public')); //Serves resources from public folder
 app.use(express.static('public'))
 

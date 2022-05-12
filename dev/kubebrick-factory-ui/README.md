@@ -1,4 +1,4 @@
-# Bookstore UI
+# KubeBrick UI
 
 # Local test
 
