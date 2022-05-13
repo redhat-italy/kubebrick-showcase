@@ -1,0 +1,16 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: packaging-machine
+    app.kubernetes.io/component: packaging-machine
+    app.kubernetes.io/instance: packaging-machine
+  name: packaging-machine
+spec:
+  port:
+    targetPort: 8080-tcp
+  to:
+    kind: Service
+    name: packaging-machine
+    weight: 100
+  wildcardPolicy: None

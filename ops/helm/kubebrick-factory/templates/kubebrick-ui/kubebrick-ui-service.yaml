@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: kubebrick-ui
+    app.kubernetes.io/component: kubebrick-ui
+    app.kubernetes.io/instance: kubebrick-ui
+  name: kubebrick-ui
+spec:
+  ports:
+  - name: 8080-tcp
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: kubebrick-ui
+  sessionAffinity: None
+  type: ClusterIP
