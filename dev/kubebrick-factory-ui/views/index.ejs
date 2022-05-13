@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
-  <meta name="author" content="Red Hat">  
+  <meta name="author" content="Red Hat">
   <title>KubeBrick Factory</title>
 
   <!-- Bootstrap core CSS -->
@@ -54,31 +54,46 @@
           <h4 class="mb-3">Pieces to print</h4>
           <form id="requestprint" class="needs-validation" novalidate>
             <div class="row g-3 form-group">
-
-              <div class="col-sm-4">
+                     
+              <div class="col-sm-3">
                 <label for="piecestoprint" class="form-label">Pieces number</label>
                 <input type="text" class="form-control" id="piecestoprint" placeholder="" value="" required>
                 <div class="invalid-feedback">
-                  Number of pieces are required
+                  Pieces Number is required
                 </div>
               </div>
 
-              <div class="col-sm-4">
+              <div class="col-sm-3">
+                <label for="piecetype" class="form-label">Pieces type</label>
+                <select class="form-control" id="piecetype" required>
+                  <option>cube</option>
+                  <option>plate</option>
+                  <option>slope</option>
+                  <option>cylinder</option>
+                </select>
+                <div class="invalid-feedback">
+                  Number of pieces are required
+                </div>                <div class="invalid-feedback">
+                  Pieces type is required
+                </div>
+              </div>
+
+              <div class="col-sm-3">
                 <label for="lotname" class="form-label">Lot name</label>
-                <input type="text" class="form-control" id="lotname" placeholder="" value="" required>
+                <input type="text" class="form-control" id="lotname" placeholder="" value="" required style="text-transform:uppercase">
                 <div class="invalid-feedback">
                   Lot prefix is required
                 </div>
               </div>
 
-              <div class="col-sm-4">
-                <label for="colorlist" class="form-label">Color</label>                
-                  <select class="form-control" id="colorlist" required>
-                    <option>blue</option>
-                    <option>green</option>
-                    <option>red</option>
-                    <option>white</option>
-                  </select>                
+              <div class="col-sm-3">
+                <label for="colorlist" class="form-label">Color</label>
+                <select class="form-control" id="colorlist" required>
+                  <option>blue</option>
+                  <option>green</option>
+                  <option>red</option>
+                  <option>white</option>
+                </select>
               </div>
 
             </div>
@@ -138,13 +153,13 @@
         event.preventDefault();
 
         var reqJson = '{"orders": [';
-
+        
         for (let i = 0; i < $("#piecestoprint").val(); i++) {
           reqJson +=
             '   {' +
-            '     "type": "square",' +
+            '     "type": "' + $('#piecetype').val() + '",' +
             '     "color": "' + $('#colorlist').val() + '",' +
-            '     "timestamp": "20220329480204",' +
+            '     "timestamp": "' + Date.now() + '",' +
             '     "batchid": "' + $("#lotname").val() + '"' +
             '   }';
 
@@ -159,8 +174,8 @@
         if ($("#piecestoprint").val() > 0) {
           $.ajax
             ({
-              type: "POST",              
-              url: FACTORYRESTAPIURL + "/camel/startbatch",              
+              type: "POST",
+              url: FACTORYRESTAPIURL + "/camel/startbatch",
               contentType: 'application/json',
               async: false,
               data: reqJson,
@@ -173,8 +188,8 @@
                   $("#requestresult").collapse("show");
 
                 } else {
-                  $("#card-result-subtitle-text")[0].firstChild.textContent = "NumeroDomanda: " + data.result;
-                  $("#card-result-text")[0].firstChild.textContent = "Requested [" + $("#piecestoprint").val() + "] lot [" + $("#lotname").val() + "]";
+                  $("#card-result-subtitle-text")[0].firstChild.textContent = "NumeroDomanda: " + data.result;   
+                  $("#card-result-text")[0].firstChild.textContent = "Requested [" + $("#piecestoprint").val() + "] [" + $('#colorlist').val() + "]  [" + $('#piecetype').val() + "] pieces for lot [" + $("#lotname").val() + "]";
                   $("#requestresult").collapse("show");
 
                 }
@@ -184,7 +199,7 @@
 
         }
       });//Close submit function
-      
+
     });//Close ready function
   </script>
 </body>
