@@ -1,48 +1,51 @@
+{{- $brokername  := $.Values.microservices.config.kubebrick.brokername -}}
+{{- $dot := . }}
+{{- range $.Values.microservices.config.kubebrick.packagingmachine.queues }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: packaging-machine
+  name: {{ . }}-packaging-machine
   labels:
-    app: packaging-machine
+    app: {{ . }}-packaging-machine
     version: v1
-    {{- include "kubebrick-factory.labels" . | nindent 4 }}    
+    {{- include "kubebrick-factory.labels" $dot | nindent 4 }}    
 spec:
-{{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+{{- if not $.Values.autoscaling.enabled }}
+  replicas: {{ $.Values.replicaCount }}
 {{- end }}
   selector:
     matchLabels:
-      {{- include "kubebrick-factory.selectorLabels" . | nindent 6 }}
+      {{- include "kubebrick-factory.selectorLabels" $dot | nindent 6 }}
   template:
     metadata:
-    {{- with .Values.podAnnotations }}
+    {{- with $.Values.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
       labels:
         app: packaging-machine
         version: v1
-        {{- include "kubebrick-factory.selectorLabels" . | nindent 8 }}
+        {{- include "kubebrick-factory.selectorLabels" $dot | nindent 8 }}
     spec:
-      {{- with .Values.imagePullSecrets }}
+      {{- with $.Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}    
       securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+        {{- toYaml $.Values.podSecurityContext | nindent 8 }}
       containers:
         - name: packaging-machine
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}/{{ .Release.Namespace }}/packaging-machine:{{ .Values.microservices.config.kubebrick.packagingmachine.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+            {{- toYaml $.Values.securityContext | nindent 12 }}
+          image: "{{ $.Values.image.repository }}/{{ $.Release.Namespace }}/packaging-machine:{{ $.Values.microservices.config.kubebrick.packagingmachine.tag }}"
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
           env:
             - name: QUARKUS_HTTP_PORT 
               value: '8080' 
             - name: QUEUE 
-              value: 'bluepieces' 
+              value: '{{ . |lower}}' 
             - name: QUARKUS_QPID_JMS_URL
-              value: 'amqp://{{ .Values.microservices.config.kubebrick.brokername }}-hdls-svc.{{ .Release.Namespace }}.svc.cluster.local:5672'
+              value: 'amqp://{{ $brokername }}-hdls-svc.{{ $.Release.Namespace }}.svc.cluster.local:5672'
             - name: JAVA_APP_JAR
               value: 'quarkus-run.jar'  
           ports:
@@ -63,16 +66,18 @@ spec:
               path: /q/health/ready
               port: http
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
+            {{- toYaml $.Values.resources | nindent 12 }}
+      {{- with $.Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.affinity }}
+      {{- with $.Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.tolerations }}
+      {{- with $.Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+---
+{{- end }}      

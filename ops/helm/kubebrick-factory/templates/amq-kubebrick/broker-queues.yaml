@@ -5,8 +5,8 @@ kind: ActiveMQArtemisAddress
 metadata:
   name: {{ $brokername }}-{{ . |title|lower}}-address  
 spec:
-  addressName:  {{ . |title}}
-  queueName:  {{ . |title}}
+  addressName:  {{ . |lower}}
+  queueName:  {{ . |lower}}
   routingType: anycast
 ---
 {{- end }}

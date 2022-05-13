@@ -29,6 +29,11 @@ microservices:
       packagingmachine:
         baseimage: "openjdk-11-rhel8:1.0"
         tag: "1.0"
+        queues:        
+          - bluepieces
+#          - greenpieces
+#          - redpieces
+#          - whitepieces
       ui:
         ocphostdomain: .shared-na46.openshift.opentlc.com
         #ocphostdomain: .playground.rhocplab.com
