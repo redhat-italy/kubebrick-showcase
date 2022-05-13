@@ -40,7 +40,12 @@ microservices:
         tag: "1.0"
 
 pipelines:
-  giturl: https://github.com/redhat-italy/kubebrick-factory
+  giturl: https://github.com/redhat-italy/kubebrick-showcase
+  pvcs:
+    - ui
+    - injection
+    - sorting
+    - packaging
 
 packaging-machine-db:       
   user: user1
