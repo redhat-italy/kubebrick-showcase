@@ -43,10 +43,8 @@ pipelines:
   giturl: https://github.com/redhat-italy/kubebrick-showcase
   pvcs:
     - ui
-    - injection
-    - sorting
-    - packaging
-
+    - java
+        
 packaging-machine-db:       
   user: user1
   password: password1
