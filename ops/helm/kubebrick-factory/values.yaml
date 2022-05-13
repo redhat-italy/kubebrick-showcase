@@ -31,19 +31,18 @@ microservices:
         tag: "1.0"
         queues:        
           - bluepieces
-#          - greenpieces
+          - greenpieces
 #          - redpieces
 #          - whitepieces
       ui:
-        ocphostdomain: .shared-na46.openshift.opentlc.com
-        #ocphostdomain: .playground.rhocplab.com
+        ocphostdomain: .cluster.openshift.mydomain.xyz        
         baseimage: "nodejs:latest"      
         tag: "1.0"
 
 pipelines:
   giturl: https://github.com/redhat-italy/kubebrick-factory
 
-injection-machinedb:       
+packaging-machine-db:       
   user: user1
   password: password1
   database: injection-machine
