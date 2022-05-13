@@ -10,7 +10,7 @@ items:
       type: string
     steps:
     - args:
-      - oc start-build kubebrick-ui --from-file=/workspace/source/dev/microservices/kubebrick-ui 
+      - oc start-build kubebrick-ui --from-file=/workspace/source/dev/microservices/kubebrick-factory-ui
         -n $(params.namespace) --wait
       command:
       - /bin/bash
