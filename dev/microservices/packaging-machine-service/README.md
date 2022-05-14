@@ -51,3 +51,13 @@ If you want to learn more about building native executables, please consult http
 
 - SmallRye Reactive Messaging - AMQP Connector ([guide](https://quarkus.io/guides/amqp)): Connect to AMQP with Reactive Messaging
 - Camel Quartz ([guide](https://camel.apache.org/camel-quarkus/latest/reference/extensions/quartz.html)): Schedule sending of messages using the Quartz 2.x scheduler
+
+# Setup local database
+                                  
+Start a postgres docker container:
+
+```docker run --name packaging-machine-db -e POSTGRES_PASSWORD=password1 -e POSTGRES_USER=user1 -e POSTGRES_DB=kubebrick -p 5432:5432 -d postgres```
+
+Setup the DB data:
+
+```cat extra/packaging-machine-db-setup.sql | docker exec -i packaging-machine-db psql -U user1 -d kubebrick```
