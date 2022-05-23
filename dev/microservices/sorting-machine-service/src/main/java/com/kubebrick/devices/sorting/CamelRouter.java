@@ -20,10 +20,8 @@ public class CamelRouter extends RouteBuilder {
     public void configure() throws Exception {
         // @formatter:off
     
-        from("amqp:queue:SortingBelt")
-            //.log("${body}")
+        from("amqp:queue:SortingBelt")            
             .unmarshal().json(JsonLibrary.Gson)
-            //.unmarshal().string("UTF-8")
             .choice()
                 .when().jsonpath("$[?(@.color == 'blue')]" , false)
                     .log("Received one blue")                      
@@ -47,9 +45,7 @@ public class CamelRouter extends RouteBuilder {
                     .to("amqp:queue:whitepieces?exchangePattern=InOnly")                                       
                 .otherwise()
                 .log("Unknown color > /dev/null").stop()
-            .end();
-            //.to("stomp:queue:SortingBelt?brokerURL={{broker.url}}");
- 
+            .end();             
             // @formatter:on
     }
 }

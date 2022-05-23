@@ -54,6 +54,10 @@ public class CamelRouter extends RouteBuilder {
           // @formatter:off
         });        
 
+      from("amqp:queue:PrintRequest?exchangePattern=InOnly")
+        .unmarshal().json(JsonLibrary.Gson)
+        .to("direct:startbatch");
+
       from("direct:startbatch")
         .log(">> body ${body}")
         .to("direct:splitbatch")
