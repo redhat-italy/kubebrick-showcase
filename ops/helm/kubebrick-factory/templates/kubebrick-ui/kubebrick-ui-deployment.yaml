@@ -37,7 +37,7 @@ spec:
           image: "{{ .Values.image.repository }}/{{ .Release.Namespace }}/kubebrick-ui:{{ .Values.microservices.config.kubebrick.ui.tag }}"
           env:
             - name: FACTORYRESTAPIURL    
-              value: "http://injection-machine-{{ .Release.Namespace }}.apps{{ .Values.microservices.config.kubebrick.ui.ocphostdomain }}"
+              value: "http://print-service-proxy-{{ .Release.Namespace }}.apps{{ .Values.microservices.config.kubebrick.ui.ocphostdomain }}"
             - name: PORT
               value: "8080"   
           imagePullPolicy: {{ .Values.image.pullPolicy }}

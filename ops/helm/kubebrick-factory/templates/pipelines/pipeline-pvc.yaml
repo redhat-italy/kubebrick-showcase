@@ -8,7 +8,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 300Mi
+      storage: 400Mi
   volumeMode: Filesystem  
 ---
 {{- end }}  

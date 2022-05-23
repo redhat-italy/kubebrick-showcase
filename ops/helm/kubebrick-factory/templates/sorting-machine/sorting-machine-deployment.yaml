@@ -39,6 +39,18 @@ spec:
           env:
             - name: QUARKUS_HTTP_PORT 
               value: '8080'  
+            - name: QUARKUS_DATASOURCE_DB-KIND
+              value: 'postgresql'
+            - name: QUARKUS_DATASOURCE_USERNAME
+              value: '{{ .Values.packagingmachinedb.user }}'
+            - name: QUARKUS_DATASOURCE_PASSWORD
+              value: '{{ .Values.packagingmachinedb.password }}'
+            - name: QUARKUS_DATASOURCE_JDBC_URL
+              value: 'jdbc:postgresql://{{ .Values.packagingmachinedb.servicename }}:5432/{{ .Values.packagingmachinedb.database }}'
+            - name: QUARKUS_DATASOURCE_JDBC_MAX-SIZE
+              value: '10'
+            - name: QUARKUS_HTTP_PORT 
+              value: '8080'  
             - name: QUARKUS_QPID_JMS_URL
               value: 'amqp://{{ .Values.microservices.config.kubebrick.brokername }}-hdls-svc.{{ .Release.Namespace }}.svc.cluster.local:5672'
             - name: JAVA_APP_JAR

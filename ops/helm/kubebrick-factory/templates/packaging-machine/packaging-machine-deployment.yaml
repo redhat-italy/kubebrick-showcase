@@ -44,6 +44,8 @@ spec:
               value: '8080' 
             - name: QUEUE 
               value: '{{ . |lower}}' 
+            - name: QUARKUS_DATASOURCE_JDBC_URL
+              value: 'jdbc:postgresql://packaging-machinedb:5432/kubebrick' 
             - name: QUARKUS_QPID_JMS_URL
               value: 'amqp://{{ $brokername }}-hdls-svc.{{ $.Release.Namespace }}.svc.cluster.local:5672'
             - name: JAVA_APP_JAR
