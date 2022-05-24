@@ -1,1 +1,0 @@
-mvn clean package && cp target/ROOT.war  ../../spike/tomcat/apache-tomcat-8.5.66/webapps/
