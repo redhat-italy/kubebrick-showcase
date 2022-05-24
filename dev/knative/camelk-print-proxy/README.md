@@ -5,5 +5,5 @@ kamel run --name=print-knative-proxy --property quarkus.qpid-jms.url=amqp://serv
 
 # Test
 
-curl -X POST -H "Content-Type: application/json" [URL_CAMELK]/request/startbatch -d "@samples/batch_blue.json"
+curl -X POST -H "Content-Type: application/json" URL_CAMELK_INTEGRATION/request/startbatch -d "@samples/batch_blue.json"
 
