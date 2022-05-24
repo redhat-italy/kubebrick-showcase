@@ -31,7 +31,7 @@ microservices:
         tag: "1.0"
         queues:        
           - bluepieces
-#          - greenpieces
+          - greenpieces
 #          - redpieces
 #          - whitepieces
       ui:
