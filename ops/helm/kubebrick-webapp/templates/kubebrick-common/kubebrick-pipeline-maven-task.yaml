@@ -11,7 +11,7 @@ spec:
     image: maven:3.8-jdk-11
     command: ["/bin/bash", "-c"]      
     args:
-    - /usr/bin/mvn -f /workspace/source/catalog/dev/monolith/kubebrick-legacy/pom.xml -s /workspace/source/catalog/dev/monolith/kubebrick-legacy/custom-settings.xml clean package -Dmaven.repo.local=/workspace/source/m2
+    - /usr/bin/mvn -f /workspace/source/catalog/dev/kubebrick-webapp/pom.xml -s /workspace/source/catalog/dev/kubebrick-webapp/custom-settings.xml clean package -Dmaven.repo.local=/workspace/source/m2
 
 
 
