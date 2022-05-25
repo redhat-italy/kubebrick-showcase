@@ -7,8 +7,9 @@ metadata:
   name: {{ . }}-packaging-machine
   labels:
     app: {{ . }}-packaging-machine
-    version: v1
+    version: v1    
     {{- include "kubebrick-factory.labels" $dot | nindent 4 }}    
+    app.kubernetes.io/name: camel
 spec:
 {{- if not $.Values.autoscaling.enabled }}
   replicas: {{ $.Values.replicaCount }}

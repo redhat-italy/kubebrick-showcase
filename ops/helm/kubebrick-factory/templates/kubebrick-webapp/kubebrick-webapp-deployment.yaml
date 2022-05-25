@@ -6,6 +6,7 @@ metadata:
     app: kubebrick-webapp
     version: v1
     {{- include "kubebrick-factory.labels" . | nindent 4 }}    
+    app.kubernetes.io/name: tomcat
 spec:
 {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}

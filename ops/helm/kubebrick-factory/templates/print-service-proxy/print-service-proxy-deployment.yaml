@@ -5,7 +5,8 @@ metadata:
   labels:
     app: print-service-proxy
     version: v1
-    {{- include "kubebrick-factory.labels" . | nindent 4 }}    
+    {{- include "kubebrick-factory.labels" . | nindent 4 }}  
+    app.kubernetes.io/name: quarkus  
 spec:
 {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}

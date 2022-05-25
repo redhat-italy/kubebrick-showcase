@@ -6,6 +6,7 @@ metadata:
     app: injection-machine
     version: v1
     {{- include "kubebrick-factory.labels" . | nindent 4 }}    
+    app.kubernetes.io/name: camel
 spec:
 {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}

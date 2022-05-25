@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.packagingmachinedb.servicename }}
+  labels:
+    app.kubernetes.io/name: postgresql
 spec:
   selector:
     matchLabels:
