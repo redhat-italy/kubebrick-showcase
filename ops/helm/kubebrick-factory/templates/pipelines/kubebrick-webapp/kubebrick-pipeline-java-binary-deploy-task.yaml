@@ -10,11 +10,11 @@ items:
       type: string
     - name: buildconfig-name
       type: string
-    - name: jar-file-path
+    - name: dir-file-path
       type: string            
     steps:
     - args:
-      - oc start-build $(params.buildconfig-name) --from-file=$(params.jar-file-path) -n $(params.namespace) --wait
+      - oc start-build $(params.buildconfig-name) --from-file=$(params.dir-file-path) -n $(params.namespace) --wait
       command:
       - /bin/bash
       - -c

@@ -11,7 +11,7 @@ spec:
     image: node
     command: ["/bin/bash", "-c"]      
     args:
-      - npm install --prefix ./source/dev/microservices/kubebrick-factory-ui ./source/dev/microservices/kubebrick-factory-ui
+      - npm install --prefix ./workspace/source/dev/microservices/kubebrick-factory-ui/ ./workspace/source/dev/microservices/kubebrick-factory-ui/
 
 
 
