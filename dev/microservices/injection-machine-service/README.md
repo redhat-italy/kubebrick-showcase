@@ -54,7 +54,14 @@ If you want to learn more about building native executables, please consult http
 # Testing the service
 
 ## Get temperature
+
 curl -X GET -H "Content-Type: application/json" localhost:8181/camel/temperature
+
+## Run the integration with SSL connection to external AMQ Broker
+
+When running with quarkus:dev you have to set trustStore and passaword
+
+```mvn quarkus:dev -Djavax.net.ssl.trustStore=PATH_TO/client.ts -Djavax.net.ssl.trustStorePassword=PASSWORD```
 
 ## start a batch
 
