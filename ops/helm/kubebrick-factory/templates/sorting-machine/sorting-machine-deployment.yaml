@@ -38,8 +38,6 @@ spec:
           image: "{{ .Values.image.repository }}/{{ .Release.Namespace }}/sorting-machine:{{ .Values.microservices.config.kubebrick.sortingmachine.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: QUARKUS_HTTP_PORT 
-              value: '8080'  
             - name: QUARKUS_DATASOURCE_DB-KIND
               value: 'postgresql'
             - name: QUARKUS_DATASOURCE_USERNAME
