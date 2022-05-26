@@ -1,0 +1,1 @@
+oc start-build packaging-machine --from-dir target/quarkus-app

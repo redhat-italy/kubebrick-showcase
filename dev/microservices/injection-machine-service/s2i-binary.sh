@@ -1,0 +1,1 @@
+oc start-build injection-machine --from-dir target/quarkus-app/

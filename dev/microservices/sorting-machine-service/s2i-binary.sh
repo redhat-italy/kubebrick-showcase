@@ -1,0 +1,1 @@
+oc start-build sorting-machine --from-dir target/quarkus-app
