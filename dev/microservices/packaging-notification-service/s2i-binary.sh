@@ -1,0 +1,1 @@
+oc start-build packaging-notification --from-dir target/quarkus-app

@@ -1,0 +1,1 @@
+artemis producer --sleep 500 --threads 1 --txt-size 0 --message '{"type": "square","color": "blue","timestamp": "20220329480204","batchid": "12345"}' --message-count 20 --destination 'anycast.bluepieces::bluepieces' --protocol amqp --url 'tcp://localhost:5672' --verbose
