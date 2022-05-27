@@ -41,7 +41,8 @@ public class CamelRouter extends RouteBuilder {
             .setHeader("batchsize", simple("${body.size}"))
             .setHeader("creationtime", simple("${date:now}"))
             .setHeader("queuename", simple("{{queue}}"))
-            .to("sql:INSERT INTO packagelog ( color, creationtimestamp, pieces) VALUES (:#queuename, :#creationtime, :#batchsize)")
+            .setBody(simple("{\"batchsize\":\"${body.size}\", \"creationtime\":\"${date:now:YYYYMMdd HH:mm:ss SSS}\", \"queuename\":\"{{queue}}\"}"))
+            .to("amqp:queue:packagingnotification?exchangePattern=InOnly") 
         .end();
         // @formatter:on
     }
