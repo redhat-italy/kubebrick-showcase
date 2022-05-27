@@ -1,0 +1,1 @@
+oc start-build kubebrick-webapp --from-file target/ROOT.war
