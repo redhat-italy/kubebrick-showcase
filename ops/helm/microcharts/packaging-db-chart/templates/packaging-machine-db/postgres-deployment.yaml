@@ -18,6 +18,7 @@ spec:
       containers:              
         - name: postgres
           image: {{ .Values.packagingmachinedb.image }}
+          command: ["run-postgresql", "-c", "wal_level=logical"]
           resources:
             limits:
               memory: {{ .Values.packagingmachinedb.memory }} 
