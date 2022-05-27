@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.packagingmachinedb.servicename }}
+  labels:
+    app.kubernetes.io/name: postgresql
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.packagingmachinedb.servicename }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: {{ .Values.packagingmachinedb.servicename }}
+        app: {{ .Values.packagingmachinedb.servicename }}         
+    spec:  
+      containers:              
+        - name: postgres
+          image: {{ .Values.packagingmachinedb.image }}
+          command: ["run-postgresql", "-c", "wal_level=logical"]
+          resources:
+            limits:
+              memory: {{ .Values.packagingmachinedb.memory }} 
+            requests:
+              memory: {{ .Values.packagingmachinedb.memory }}       
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: {{ .Values.packagingmachinedb.port }}
+          env:
+            - name: POSTGRESQL_USER
+              value: {{ .Values.packagingmachinedb.user }}
+            - name: POSTGRESQL_PASSWORD
+              value: {{ .Values.packagingmachinedb.password }}
+            - name: POSTGRESQL_DATABASE
+              value: {{ .Values.packagingmachinedb.database }}   
+            - name: POSTGRESQL_ADMIN_PASSWORD
+              value: {{ .Values.packagingmachinedb.password }}
+            - name: PGPASSWORD
+              value: {{ .Values.packagingmachinedb.password }}      

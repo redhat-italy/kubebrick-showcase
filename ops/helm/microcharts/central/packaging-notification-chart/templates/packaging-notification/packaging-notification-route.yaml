@@ -1,0 +1,16 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: packaging-notification
+    app.kubernetes.io/component: packaging-notification
+    app.kubernetes.io/instance: packaging-notification
+  name: packaging-notification
+spec:
+  port:
+    targetPort: 8080-tcp
+  to:
+    kind: Service
+    name: packaging-notification
+    weight: 100
+  wildcardPolicy: None

@@ -1,0 +1,18 @@
+apiVersion: v1
+data:
+  data.sql: |
+    START TRANSACTION;
+    CREATE TABLE IF NOT EXISTS packagelog (
+      id serial,
+      color text,
+      creationtimestamp timestamp,
+      pieces numeric(9,2),
+      PRIMARY KEY( id )
+    );
+    -- Owner-Alter-Table --
+    ALTER TABLE "packagelog" OWNER TO "{{ .Values.packagingmachinedb.user }}";
+    -- Post-data save --
+    COMMIT;
+kind: ConfigMap
+metadata:
+  name: {{ .Values.packagingmachinedb.servicename }}-init-script
