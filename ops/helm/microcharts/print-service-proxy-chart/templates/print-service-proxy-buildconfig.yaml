@@ -1,0 +1,29 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: print-service-proxy
+    app.kubernetes.io/component: print-service-proxy
+    app.kubernetes.io/instance: print-service-proxy
+  name: print-service-proxy
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: print-service-proxy:{{ .Values.microservices.config.kubebrick.printproxyservice.tag }}
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    binary: {}
+    type: Binary
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: {{ .Values.microservices.config.kubebrick.printproxyservice.baseimage }}
+        namespace: openshift
+    type: Source
+  successfulBuildsHistoryLimit: 5

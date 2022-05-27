@@ -1,0 +1,30 @@
+
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: kubebrick-ui
+    app.kubernetes.io/component: kubebrick-ui
+    app.kubernetes.io/instance: kubebrick-ui
+  name: kubebrick-ui
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: kubebrick-ui:{{ .Values.microservices.config.kubebrick.ui.tag }}
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    binary: {}
+    type: Binary
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: {{ .Values.microservices.config.kubebrick.ui.baseimage }}
+        namespace: openshift
+    type: Source
+  successfulBuildsHistoryLimit: 5
