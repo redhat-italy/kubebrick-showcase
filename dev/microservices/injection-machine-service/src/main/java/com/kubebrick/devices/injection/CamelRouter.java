@@ -33,8 +33,25 @@ public class CamelRouter extends RouteBuilder {
           .post("/startbatch")         
             .to("direct:startbatch");
 
+          from("amqp:queue:PrintRequest?exchangePattern=InOnly")
+            .unmarshal().json(JsonLibrary.Gson)
+            .to("direct:startbatch");
+    
+          from("direct:startbatch")
+            .log(">> body ${body}")
+            .to("direct:splitbatch")
+            .setBody().simple("{\"result\":\"print requested\"}");
+                  
+          from("direct:splitbatch")
+            .split().jsonpath("$.orders")
+              .streaming()
+              .log("batch >> ${body}")
+              .marshal().json(JsonLibrary.Gson)        
+              .to("amqp:queue:SortingBelt?exchangePattern=InOnly");
+   
+
         from("direct:temperature")
-        .process(
+          .process(
           // @formatter:on
             new Processor() {
               
@@ -53,22 +70,6 @@ public class CamelRouter extends RouteBuilder {
               }
           // @formatter:off
         });        
-
-      from("amqp:queue:PrintRequest?exchangePattern=InOnly")
-        .unmarshal().json(JsonLibrary.Gson)
-        .to("direct:startbatch");
-
-      from("direct:startbatch")
-        .log(">> body ${body}")
-        .to("direct:splitbatch")
-        .setBody().simple("{\"result\":\"print requested\"}");
-              
-      from("direct:splitbatch")
-        .split().jsonpath("$.orders")
-          .streaming()
-          .log("batch >> ${body}")
-          .marshal().json(JsonLibrary.Gson)        
-          .to("amqp:queue:SortingBelt?exchangePattern=InOnly");
-      // @formatter:on
+  
   }
 }
