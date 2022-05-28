@@ -20,9 +20,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.DataFormatException;
 
-/**
- * A simple Camel REST DSL route that implements the greetings service.
- */
 public class CamelRouter extends RouteBuilder {
 
     private final String route_name = "Pieces aggregation";
@@ -44,6 +41,7 @@ public class CamelRouter extends RouteBuilder {
             .setBody(simple("{\"batchsize\":\"${body.size}\", \"creationtime\":\"${date:now:YYYYMMdd HH:mm:ss SSS}\", \"queuename\":\"{{queue}}\"}"))
             .to("amqp:queue:packagingnotification?exchangePattern=InOnly") 
         .end();
+        
         // @formatter:on
     }
 
