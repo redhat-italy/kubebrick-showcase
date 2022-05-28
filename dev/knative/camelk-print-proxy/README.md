@@ -5,6 +5,7 @@ kamel run --name=print-knative-proxy --property quarkus.qpid-jms.url=amqp://serv
 # Install for SSL connection to external AMQ
 
 ```kamel run --name=print-knative-proxy \
+-p quarkus.http.cors=true \
 --resource file:<PATH_TO_YOUR_TRUST_STORE> \
 -t jvm.enabled=true \
 -t jvm.options=-Djavax.net.ssl.trustStore=/etc/camel/resources/<YOUR_TRUST_STORE_FILE_NAME> \
