@@ -15,11 +15,11 @@ public class PrintProxyService extends org.apache.camel.builder.RouteBuilder {
     public void configure() throws Exception {
         // @formatter:off
         restConfiguration()
+          .enableCORS(true)
           .contextPath("request")
           .bindingMode(RestBindingMode.off)
           .jsonDataFormat("json-gson")
-          .dataFormatProperty("prettyPrint", "true")
-          .enableCORS(true);
+          .dataFormatProperty("prettyPrint", "true");
 
         rest("/")
           .consumes("application/json")

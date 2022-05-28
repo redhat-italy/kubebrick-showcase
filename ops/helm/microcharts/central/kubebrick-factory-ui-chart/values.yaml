@@ -14,7 +14,7 @@ microservices:
   config:
     kubebrick:
       ui:
-        ocphostdomain: .cluster.openshift.mydomain.xyz        
+        ocphostdomain: .ccnr-appdev.sandbox1331.opentlc.com        
         baseimage: "nodejs:latest"      
         tag: "1.0"                       
 pipelines:
