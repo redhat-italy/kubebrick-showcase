@@ -20,9 +20,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.DataFormatException;
 
-/**
- * A simple Camel REST DSL route that implements the greetings service.
- */
 public class CamelRouter extends RouteBuilder {
 
     private final String route_name = "Pack Notification";
