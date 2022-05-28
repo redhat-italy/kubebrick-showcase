@@ -19,19 +19,6 @@ public class CamelRouter extends RouteBuilder {
   public void configure() throws Exception {
 
     // @formatter:off
-        restConfiguration()
-          .contextPath("camel")
-          .bindingMode(RestBindingMode.off)
-          .jsonDataFormat("json-gson")
-          .dataFormatProperty("prettyPrint", "true")
-          .enableCORS(true);
-
-        rest("/")
-          .get("/temperature")
-            .to("direct:temperature")          
-          .consumes("application/json")
-          .post("/startbatch")         
-            .to("direct:startbatch");
 
           from("amqp:queue:PrintRequest?exchangePattern=InOnly")
             .unmarshal().json(JsonLibrary.Gson)
@@ -49,6 +36,26 @@ public class CamelRouter extends RouteBuilder {
               .marshal().json(JsonLibrary.Gson)        
               .to("amqp:queue:SortingBelt?exchangePattern=InOnly");
    
+
+
+
+
+
+
+
+        restConfiguration()
+              .contextPath("camel")
+              .bindingMode(RestBindingMode.off)
+              .jsonDataFormat("json-gson")
+              .dataFormatProperty("prettyPrint", "true")
+              .enableCORS(true);
+
+            rest("/")
+              .get("/temperature")
+                .to("direct:temperature")          
+              .consumes("application/json")
+              .post("/startbatch")         
+                .to("direct:startbatch");
 
         from("direct:temperature")
           .process(
