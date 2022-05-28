@@ -11,7 +11,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.get("/", (req, res) => {
   res.render("index", {
-    pagetitle: "Ricerca richiesta", 
+    pagetitle: "Kubebrick Factory", 
     FACTORYRESTAPIURL: process.env.FACTORYRESTAPIURL
   });
 });
