@@ -3,15 +3,16 @@ kind: Subscription
 metadata:
   annotations:
     apps.open-cluster-management.io/git-branch: master
-    apps.open-cluster-management.io/git-path: ops/helm/kubebrick-factory
+    apps.open-cluster-management.io/git-path: gitops/microshift/sorting-machine-chart
     apps.open-cluster-management.io/reconcile-option: merge
   labels:
-    app: kubebrick-factory
-  name: kubebrick-factory-subscription-1
-  namespace: kubebrick-factory
+    app: sorting
+  name: sorting-subscription-1
+  namespace: default
 spec:
-  channel: kubebrick-factory
+  channel: sorting/sorting
   placement:
     placementRef:
       kind: PlacementRule
-      name: kubebrick-factory-placement-1
+      name: sorting-placement-1
+

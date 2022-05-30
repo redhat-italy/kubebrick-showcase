@@ -1,0 +1,12 @@
+apiVersion: apps.open-cluster-management.io/v1
+kind: PlacementRule
+metadata:
+  labels:
+    app: injection
+  name: injection-placement-1
+  namespace: default
+spec:
+  clusterSelector:
+    matchLabels:
+      'role': 'injection'
+

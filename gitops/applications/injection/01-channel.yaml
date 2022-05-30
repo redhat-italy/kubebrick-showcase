@@ -3,8 +3,8 @@ kind: Channel
 metadata:
   annotations:
     apps.open-cluster-management.io/reconcile-rate: medium
-  name: kubebrick-factory
-  namespace: kubebrick-factory
+  name: injection
+  namespace: injection
 spec:
   type: Git
-  pathname: 'https://github.com/redhat-italy/kubebrick-showcase.git'
+  pathname: 'https://github.com/redhat-italy/kubebrick-showcase'
