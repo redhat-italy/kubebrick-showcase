@@ -2,7 +2,7 @@ apiVersion: app.k8s.io/v1beta1
 kind: Application
 metadata:
   name: sorting
-  namespace: default
+  namespace: sorting
 spec:
   componentKinds:
   - group: apps.open-cluster-management.io

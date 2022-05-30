@@ -4,7 +4,7 @@ metadata:
   labels:
     app: injection
   name: injection-placement-1
-  namespace: default
+  namespace: injection
 spec:
   clusterSelector:
     matchLabels:

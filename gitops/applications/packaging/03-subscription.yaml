@@ -8,7 +8,7 @@ metadata:
   labels:
     app: packaging
   name: packaging-subscription-1
-  namespace: default
+  namespace: packaging
 spec:
   channel: packaging/packaging
   placement:

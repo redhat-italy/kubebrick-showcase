@@ -8,7 +8,7 @@ metadata:
   labels:
     app: sorting
   name: sorting-subscription-1
-  namespace: default
+  namespace: sorting
 spec:
   channel: sorting/sorting
   placement:

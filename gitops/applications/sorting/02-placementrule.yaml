@@ -4,7 +4,7 @@ metadata:
   labels:
     app: sorting
   name: sorting-placement-1
-  namespace: default
+  namespace: sorting
 spec:
   clusterSelector:
     matchLabels:

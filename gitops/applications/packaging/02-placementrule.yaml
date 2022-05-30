@@ -4,7 +4,7 @@ metadata:
   labels:
     app: packaging
   name: packaging-placement-1
-  namespace: default
+  namespace: packaging
 spec:
   clusterSelector:
     matchLabels:
