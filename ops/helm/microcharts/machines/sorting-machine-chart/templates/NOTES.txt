@@ -1,5 +1,0 @@
-Install Summary
- 
-All installed in namespace {{ .Release.Namespace }}
-
-Installed with name {{ .Chart.Name }}.

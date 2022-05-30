@@ -1,6 +1,0 @@
-apiVersion: v2
-name: amq-broker
-description: A Helm chart for AMQ Broker Operator on Kubernetes
-type: application
-version: 0.1.0
-appVersion: 7.7
