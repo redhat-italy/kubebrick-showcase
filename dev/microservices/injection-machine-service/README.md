@@ -68,3 +68,16 @@ When running with quarkus:dev you have to set trustStore and passaword
 curl -X POST -H "Content-Type: application/json" localhost:8181/camel/startbatch -d "@samples/batch.json"
 
 curl -X POST -H "Content-Type: application/json" localhost:8181/camel/startbatch -d "@samples/batch_blue.json"
+
+
+# Push image to quay.io
+
+Build and export to Quay
+
+    docker build . -t quay.io/<repository>/injection-machine:1.0
+
+Prepare quay repository and an account to push/pull to quay
+
+Push to quay
+
+    docker push quay.io/<repository>/injection-machine:1.0
