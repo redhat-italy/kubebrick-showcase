@@ -1,9 +1,0 @@
-kind: KafkaBridge
-apiVersion: kafka.strimzi.io/v1beta2
-metadata:
-  name: kubebrick-http-bridge
-spec:
-  replicas: 1
-  bootstrapServers: 'kubebrick-amq-streams-kafka-bootstrap:9092'
-  http:
-    port: 8080
