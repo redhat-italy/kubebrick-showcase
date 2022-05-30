@@ -79,4 +79,5 @@ public class CamelRouter extends RouteBuilder {
         });        
   
   }
+  
 }
