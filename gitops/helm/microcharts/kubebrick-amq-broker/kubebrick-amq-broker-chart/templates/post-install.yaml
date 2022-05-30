@@ -1,0 +1,141 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "amq-broker.fullname" . }}-post
+  labels:
+    {{- include "amq-broker.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    "helm.sh/hook-weight": "0"
+spec:
+  backoffLimit: 2
+  ttlSecondsAfterFinished: 100
+  template:
+    metadata:
+      name: "{{ .Release.Name }}"
+      labels:
+        {{- include "amq-broker.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "amq-broker.serviceAccountName" . }}
+      restartPolicy: Never
+      {{ if .Values.pki.self -}}
+      initContainers:
+      - name: keytool
+        image: "{{ .Values.keytool.image.repository }}:{{ .Values.keytool.image.tag }}"
+        imagePullPolicy: "{{ .Values.keytool.image.pullPolicy }}"
+        command:
+        - /bin/bash
+        - '-c'
+        - |
+            #!/bin/bash
+
+            {{ range .Values.acceptors }}
+            {{- $acceptor := . -}}
+            {{- with $ }}
+            {{- if $acceptor.sslEnabled -}}
+
+            cd /opt/pki/{{ $acceptor.name }}
+            mkdir -p ../java/{{ $acceptor.name }}
+
+            RANDFILE=/tmp/.rnd openssl pkcs12 -export -in tls.crt -inkey tls.key -chain -CAfile ca.crt -name broker -password pass:{{ .Values.pki.keyStorePassword | quote }} -out ../java/{{ $acceptor.name }}/broker.ks
+
+            keytool -keystore ../java/{{ $acceptor.name }}/client.ts -storepass {{ .Values.pki.trustStorePassword  | quote }} -noprompt -alias broker -import -file tls.crt
+
+            {{- end }}
+            {{- end }}
+            {{- end }}
+            exit 0
+        volumeMounts:
+        {{ range .Values.acceptors }}
+        {{- if .sslEnabled -}}
+        - name: {{ .name }}
+          mountPath: /opt/pki/{{ .name }}
+        {{- end }}
+        {{- end }}
+        - name: pki
+          mountPath: /opt/pki
+      {{- end }}
+      containers:
+      - name: post-install
+        image: "{{ .Values.oc.image.repository }}:{{ .Values.oc.image.tag }}"
+        imagePullPolicy: "{{ .Values.oc.image.pullPolicy }}"
+        command:
+        - /bin/bash
+        - '-c'
+        - |
+            #!/bin/bash
+
+            export AMQ_BROKER={{ include "amq-broker.fullname" . }}-ss
+
+            {{ range .Values.acceptors }}
+            {{- $acceptor := . -}}
+            {{- with $ }}
+            {{- if $acceptor.sslEnabled -}}
+
+            {{- if .Values.pki.self -}}
+
+            cd /opt/pki/java/{{ $acceptor.name }}
+            
+            export BROKER_KS=$(base64 broker.ks -w0)
+            export CLIENT_TS=$(base64 client.ts -w0)
+            
+            oc patch secret {{ include "amq-broker.fullname" . }}-{{ $acceptor.name }}-secret -p "
+            data:
+              broker.ks: |
+                ${BROKER_KS}
+              client.ts: |
+                ${CLIENT_TS}
+            "
+            {{ else }}
+
+            oc secrets link sa/amq-broker-operator {{ include "amq-broker.fullname" . }}-{{ $acceptor.name }}-secret
+
+            {{- end }}
+            {{- end }}
+            {{- end }}
+            {{- end }}
+            
+            # TODO: Wait until the operator finish to apply all the changes (broker and addresses)
+            # Reconcile
+            sleep 1m
+
+            # Wait the rollout of AMQ Broker Statefulset
+            oc rollout status sts/$AMQ_BROKER -w
+            
+            # Security
+            {{- range  .Values.securitySettings.users }}
+            oc exec sts/$AMQ_BROKER -- /home/jboss/amq-broker/bin/artemis user add --user {{ .name }} --password {{ .password }} --role {{ .role }}
+            {{- end }}
+
+            # Scale Down the Operator
+            oc scale --replicas=0 deployments/amq-broker-operator
+
+            # Adopt Statefulset Broker
+            oc annotate sts/$AMQ_BROKER meta.helm.sh/release-name={{ .Release.Name }} --overwrite 
+            oc annotate sts/$AMQ_BROKER meta.helm.sh/release-namespace={{ .Release.Namespace }} --overwrite 
+            oc label sts/$AMQ_BROKER app.kubernetes.io/managed-by=Helm --overwrite
+
+            # Patch
+            oc patch sts $AMQ_BROKER -p "$(</opt/config/patch.yaml)"
+        volumeMounts:
+        - name: kustomize
+          mountPath: /opt/config
+        - name: pki
+          mountPath: /opt/pki
+      volumes:
+      - name: pki
+        emptyDir: {}
+      - name: kustomize
+        configMap:
+          name: {{ include "amq-broker.fullname" . }}
+      {{ range .Values.acceptors }}
+      {{- $acceptor := . -}}
+      {{- with $ }}
+      {{- if $acceptor.sslEnabled -}}
+      - name: {{ $acceptor.name }}
+        secret:
+          secretName: {{ include "amq-broker.fullname" . }}-{{ $acceptor.name }}-secret
+      {{- end }}
+      {{- end }}
+      {{- end }}

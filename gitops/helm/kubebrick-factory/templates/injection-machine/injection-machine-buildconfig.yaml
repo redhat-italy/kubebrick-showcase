@@ -1,0 +1,29 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: injection-machine
+    app.kubernetes.io/component: injection-machine
+    app.kubernetes.io/instance: injection-machine
+  name: injection-machine
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: injection-machine:{{ .Values.microservices.config.kubebrick.injectionmachine.tag }}
+  postCommit: {}
+  resources: {}
+  runPolicy: Serial
+  source:
+    binary: {}
+    type: Binary
+  strategy:
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        name: {{ .Values.microservices.config.kubebrick.injectionmachine.baseimage }}
+        namespace: openshift
+    type: Source
+  successfulBuildsHistoryLimit: 5

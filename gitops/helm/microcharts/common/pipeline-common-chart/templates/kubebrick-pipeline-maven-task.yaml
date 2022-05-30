@@ -1,0 +1,22 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: maven-quarkus-build
+spec:
+  params:
+  - name: sub-project-name
+    type: string   
+  - name: workspace-subdir
+    type: string               
+  workspaces:
+  - name: source
+    description: The workspace where the source code will found
+  steps:  
+  - name: build
+    image: maven:3.8-jdk-11
+    command: ["/bin/bash", "-c"]      
+    args:
+    - /usr/bin/mvn -f /workspace/source/$(params.workspace-subdir)/dev/microservices/$(params.sub-project-name)/pom.xml -s /workspace/source/$(params.workspace-subdir)/dev/microservices/$(params.sub-project-name)/custom-settings.xml clean package -DskipTests=true -Dmaven.repo.local=/workspace/source/m2
+
+
+

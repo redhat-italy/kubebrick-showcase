@@ -1,0 +1,14 @@
+{{- range .Values.pipelines.pvcs }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ . |lower}}-pipeline-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 400Mi
+  volumeMode: Filesystem  
+---
+{{- end }}  
