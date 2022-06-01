@@ -22,6 +22,7 @@ microservices:
         queues:        
           - bluepieces
           - greenpieces          
+          - redpieces
       ocphostdomain: .cluster.openshift.mydomain.xyz                         
 
 resources: {}
